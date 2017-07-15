@@ -3,10 +3,10 @@ const proc = require('child_process')
 
 const SUSPICION_EXPONENT_CAP = 8
 const SUSPICION_CAP = 3
-const SUSPICION_THRESHOLD = 320
-const SUSPICION_EXP_BASE = 2
-const SUSPICION_TURN_DEPRECATE = 0.9
-const ENTRY_SENSITIVITY = 1
+const SUSPICION_THRESHOLD = 75
+const SUSPICION_EXP_BASE = 3
+const SUSPICION_TURN_DEPRECATE = 0.95
+const ENTRY_SENSITIVITY = 2
 const MIN_STORE_ENTRIES_IN_SLOT = 20
 
 function isUserSuspicious() {
@@ -30,7 +30,7 @@ function isEntrySuspicious(lastEntry) {
     let avg_travel = 0, avg_delay1 = 0, avg_delay2 = 0
     
     const size = entries.length
-    if (size < 1) return false
+    if (size < 2) return false
 
     // Calculate average
     for (let i = 0; i < size; i++) {
@@ -69,9 +69,11 @@ function isEntrySuspicious(lastEntry) {
     console.log('SD: ' + sd_travel + ' ' + sd_delay1 + ' ' + sd_delay2)
 
     // Calculate suspiciousness
-    let sus_travel = Math.abs(newest_travel - avg_travel) / sd_travel
-    let sus_delay1 = Math.abs(newest_travel - avg_delay1) / sd_delay1
-    let sus_delay2 = Math.abs(newest_travel - avg_delay2) / sd_delay2
+    let sus_travel = 0, sus_delay1 = 0, sus_delay2 = 0
+
+    sus_travel = Math.abs(newest_travel - avg_travel) / sd_travel
+    sus_delay1 = Math.abs(newest_delay1 - avg_delay1) / sd_delay1
+    sus_delay2 = Math.abs(newest_delay2 - avg_delay2) / sd_delay2
 
     let suspicion = 0
     if (sus_travel > SUSPICION_CAP) {
@@ -85,17 +87,21 @@ function isEntrySuspicious(lastEntry) {
         if (sus_delay1 > SUSPICION_EXPONENT_CAP){
             sus_delay1 = SUSPICION_EXPONENT_CAP
         }
-        suspicion++
+        suspicion = suspicion + 2
     }
 
     if (sus_delay2 > SUSPICION_CAP) {
         if (sus_delay2 > SUSPICION_EXPONENT_CAP){
             sus_delay2 = SUSPICION_EXPONENT_CAP
         }
-        suspicion++
+        suspicion = suspicion + 2
     }
-
+    // console.log('Sus in service' + userData.suspicionScore)
+    // console.log(sus_delay2)
+    // console.log(sus_delay1)
     userData.suspicionScore = userData.suspicionScore * SUSPICION_TURN_DEPRECATE + 
+                            //   sus_travel + sus_delay1 +
+                            //   sus_travel + sus_delay1 + sus_delay2
                               Math.pow(SUSPICION_EXP_BASE, sus_travel) +
                               Math.pow(SUSPICION_EXP_BASE, sus_delay1) + 
                               Math.pow(SUSPICION_EXP_BASE, sus_delay2)
@@ -114,8 +120,8 @@ function logOut() {
     }
     
     console.log('Logged out.')
+    // userData.resetData()
     proc.exec('"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession\" -suspend')
-    userData.resetData()
 }
 
 module.exports = {

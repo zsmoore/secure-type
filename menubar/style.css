@@ -4,16 +4,31 @@ html {
 }
 
 body {
-    background: #112481;
+    background: #644da4;
     color: #fff;
-    font-family: "Source Sans Pro", "Helvetica", sans-serif;
+    font-family: "Source Serif Pro", serif;
+    font-weight: 700;
 }
 
 .content {
     text-align: center;
-    margin: 10px;
+    padding: 20px;
 }
 
 input {
     padding: 10px;
+}
+
+h1 {
+    font-size: 58px;
+    margin: 0 30px;
+}
+
+.button {
+    background: #fff;
+    border: 0;
+    color: #644da4;
+    font-size: 14px;
+    height: 50px;
+    width: 180px;
 }
