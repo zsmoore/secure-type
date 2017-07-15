@@ -10,11 +10,8 @@ main(void) {
 
     //kb_insert_time(test, 1, 0);
 
-<<<<<<< HEAD
     //kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
-=======
 	//printf( "%s\n", structToString(test));
->>>>>>> cf1f6f32e49f8fd2b25f0eb0095d461b05c01fc4
 
     kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
 	makeFile(testkbs);
