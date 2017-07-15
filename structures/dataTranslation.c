@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 /////////////////////////////
 // Key Bundle Struct
@@ -64,6 +65,8 @@ kbs_insert_times(struct keyBundleStore *kbs, char first, char second, int travel
     kb_insert_time(kb, travelTime, TRAVEL_TIMES_INDEX);
     kb_insert_time(kb, firstDelay, FIRST_DELAY_INDEX);
     kb_insert_time(kb, secondDelay, SECOND_DELAY_INDEX);
+
+    kbs->kbs_lastInserted = kb;
 }
 
 void
@@ -164,6 +167,8 @@ kbs_create(void) {
         return NULL;
     }
 
+    kbs->kbs_lastInserted = NULL;
+
     return kbs;
 }
 
@@ -203,4 +208,24 @@ findOpenIndex(int *arr) {
         }
     }
     return -1;
+}
+
+double *
+readData(char *data) {
+    double *ret = malloc((sizeof(int) * 5) + 1);
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    char *strCopy = strdup(data);
+    strCopy = strtok(strCopy, ",");
+    
+    int index = 0;
+    while (strCopy != NULL) {
+        ret[index] = atof(strCopy);
+        index += 1;
+        strCopy = strtok(NULL, ",");
+    }
+    
+    return ret;
 }
