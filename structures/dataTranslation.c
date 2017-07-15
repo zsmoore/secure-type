@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 /////////////////////////////
 // Key Bundle Struct
@@ -54,6 +55,7 @@ kbs_insert_times(struct keyBundleStore *kbs, char first, char second, int travel
     struct keyBundle *kb;
     if (kbs->kbs_data[first][second] == NULL) {
         kb = kb_create(first, second);
+        kbs->kbs_data[first][second] = kb;
     } else {
         kb = kbs->kbs_data[first][second];
     }
@@ -87,7 +89,7 @@ kb_insert_time(struct keyBundle *kb, int timeToInsert, int arrType) {
         replacing = true;
     }
 
-    kb->k_dataTimes[arrType][indexToInsert] = timeToInsert;
+    arr[indexToInsert] = timeToInsert;
     
     //Update replacing.  If bigger than array wrap to 0
     if (replacing) {
@@ -98,6 +100,57 @@ kb_insert_time(struct keyBundle *kb, int timeToInsert, int arrType) {
     }
 }
 
+//Return -1 if nothing otherwise last time
+int
+kbs_get_last_time(struct keyBundleStore *kbs, char first, char second, int arrType) {
+    assert(kbs != NULL);
+
+    struct keyBundle *kb;
+    int *arr;
+    int toReturn;
+    //If what we want is not null
+    if (kbs->kbs_data[first][second] != NULL) {
+        
+        //get what we want
+        kb = kbs->kbs_data[first][second];
+        
+        //get proper array
+        arr = kb->k_dataTimes[arrType];
+        
+        //if we have not replaced yet
+        if (kb->k_dataTimesOldest[arrType] == -1) {
+            
+            //find open
+            toReturn = findOpenIndex(arr);
+            
+            //if nothing in arr return -1
+            if (toReturn == 0) {
+                return -1;
+            } else {
+                //if something in arr return the freshest element
+                return kb->k_dataTimes[arrType][toReturn - 1];
+            }
+        } else {
+            //if we have replaced
+
+            //get the index of oldest item
+            toReturn = kb->k_dataTimesOldest[arrType];
+            //if oldest is at 0 we want to wrap around to last index
+            if (toReturn == 0) {
+                //return element at end of list
+                return kb->k_dataTimes[arrType][NUM_REMEMBERED - 1];
+            } else {
+                //return element before oldest
+                return kb->k_dataTimes[arrType][toReturn -1];
+            }
+        }
+    } else {
+        //return negative 1 if not possible
+        return -1;
+    }
+
+
+}
 
 ///////////////////////////
 // Mass Store Struct
