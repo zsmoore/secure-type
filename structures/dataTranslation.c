@@ -49,7 +49,7 @@ kb_destroy(struct keyBundle *kb) {
 //////////////////////////////
 // Key Bundle Helpers
 void 
-kbs_insert_times(struct keyBundleStore *kbs, char first, char second, int travelTime, int firstDelay, int secondDelay) {
+kbs_insert_times(struct keyBundleStore *kbs, char first, char second, double travelTime, double firstDelay, double secondDelay) {
     assert(kbs != NULL);
 
     //Find or create our struct
@@ -70,13 +70,13 @@ kbs_insert_times(struct keyBundleStore *kbs, char first, char second, int travel
 }
 
 void
-kb_insert_time(struct keyBundle *kb, int timeToInsert, int arrType) {
+kb_insert_time(struct keyBundle *kb, double timeToInsert, int arrType) {
     assert(kb != NULL);
 
     int indexToInsert = -1;
     bool replacing = false;
 
-    int *arr = kb->k_dataTimes[arrType];
+    double *arr = kb->k_dataTimes[arrType];
 
     //Find index to put travelTime
     if (kb->k_dataTimesOldest[arrType] == -1) {
@@ -104,12 +104,12 @@ kb_insert_time(struct keyBundle *kb, int timeToInsert, int arrType) {
 }
 
 //Return -1 if nothing otherwise last time
-int
+double
 kbs_get_last_time(struct keyBundleStore *kbs, char first, char second, int arrType) {
     assert(kbs != NULL);
 
     struct keyBundle *kb;
-    int *arr;
+    double *arr;
     int toReturn;
     //If what we want is not null
     if (kbs->kbs_data[first][second] != NULL) {
@@ -191,7 +191,7 @@ kbs_destroy(struct keyBundleStore *kbs) {
 ////////////////////////////
 //  General Helpers
 void
-initArr(int *arr) {
+initArr(double *arr) {
 
     int i;
     for( i = 0; i < NUM_REMEMBERED; i++) {
@@ -200,7 +200,7 @@ initArr(int *arr) {
 }
 
 int
-findOpenIndex(int *arr) {
+findOpenIndex(double *arr) {
     int i;
     for(i = 0; i < NUM_REMEMBERED; i++){
         if (arr[i] == -1) {
