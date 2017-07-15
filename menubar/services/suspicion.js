@@ -114,7 +114,7 @@ function logOut() {
     }
     
     console.log('Logged out.')
-    proc.exec('"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession\" -suspend')
+    // proc.exec('"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession\" -suspend')
     userData.resetData()
 }
 
