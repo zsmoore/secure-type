@@ -54,4 +54,6 @@ double *readData(char *);
 //  General Helpers
 void initArr(double *);
 int findOpenIndex(double *);
+char * structToString(struct keyBundle *);
+void makeFile(struct keyBundleStore *);
 #endif

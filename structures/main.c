@@ -10,8 +10,11 @@ main(void) {
 
     kb_insert_time(test, 1, 0);
 
-    kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
+	//printf( "%s\n", structToString(test));
 
+    kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
+	makeFile(testkbs);
+	
     //printf("THIS IS IS:\t%d\n", kbs_get_last_time(testkbs, 'a', 'b', 0));
     
     double *testReturn = readData("1,2,3,4,5");
