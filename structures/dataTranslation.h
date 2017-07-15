@@ -41,6 +41,7 @@ void kb_insert_time(struct keyBundle *, int timeToInsert, int arrType);
 ////////////////////////////
 //  Mass Store Helpers
 void kbs_insert_times(struct keyBundleStore *, char first, char second, int travelTime, int firstDelay, int secondDelay);
+int kbs_get_last_time(struct keyBundleStore *, char first, char second, int arrType);
 
 
 ///////////////////////
