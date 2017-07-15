@@ -321,4 +321,58 @@ copyArr(struct keyBundle *kb, double *toCop, int arrType) {
     for(i = 0; i < NUM_REMEMBERED; i++) {
         kb->k_dataTimes[arrType][i] = toCop[i];
     }
+
+char * structToString(struct keyBundle *kb) {
+
+	if (kb == NULL) {
+		return "NULL;";
+	}
+	
+	char * data = (char *) malloc((sizeof(char) * NUM_REMEMBERED * NUM_TIME_ARRAYS) + (sizeof(double) * NUM_REMEMBERED * NUM_TIME_ARRAYS) + (sizeof(char) * 100));
+	
+	char * fChar = (char*) malloc(sizeof(char));
+	char * sChar = (char*) malloc(sizeof(char));
+	sprintf(fChar, "%c", kb->k_firstPressed);
+	sprintf(sChar, "%c", kb->k_secondPressed);
+
+	strcat(data, fChar);
+	strcat(data, ",");
+	strcat(data, sChar);
+	strcat(data, ",");
+	
+	free(fChar);
+	free(sChar);
+
+	int i = 0;
+	for (; i < NUM_TIME_ARRAYS; i++) {
+		int j = 0;
+		for (; j < NUM_REMEMBERED; j++) {
+			char * temp = (char*) malloc(sizeof(double));
+			sprintf(temp, "%f", kb->k_dataTimes[i][j]);
+			strcat(data, temp);
+			free(temp);
+			if (j < NUM_REMEMBERED-1)
+				strcat(data, "*");
+		}
+		if (i < NUM_TIME_ARRAYS-1)
+			strcat(data, ",");
+	}
+	strcat(data, ";");
+	return data;
+}
+
+void makeFile (struct keyBundleStore * kbs) {
+	int i = 0;
+	FILE * fp;
+
+	fp = fopen ("file.txt", "w+");
+
+	for (; i < MASS_STORE_SIZE; i++) {
+		int j = 0;
+		for (; j < MASS_STORE_SIZE; j++) {
+			fprintf(fp, "%s", structToString(kbs->kbs_data[i][j]));			
+		}
+		fprintf(fp, "\n");
+	}
+	fclose(fp);
 }

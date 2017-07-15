@@ -1,0 +1,18 @@
+{
+  "name": "motionpass-menubar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "supervisor -k --no-restart-on error -e node,js,html -w . -x electron .",
+    "start-once": "electron ."
+  },
+  "dependencies": {
+    "menubar": "^5.2.3",
+    "sudo": "^1.0.3"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.4.13",
+    "supervisor": "^0.12.0"
+  }
+}
