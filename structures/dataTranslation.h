@@ -55,4 +55,6 @@ struct keyBundleStore *buildFromFile(char *filename);
 void initArr(double *);
 int findOpenIndex(double *);
 void copyArr(struct keyBundle *, double *, int arrType);
+char * structToString(struct keyBundle *);
+void makeFile(struct keyBundleStore *);
 #endif
