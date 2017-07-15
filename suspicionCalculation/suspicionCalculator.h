@@ -11,7 +11,7 @@
 #define SUSPICION_CAP 4
 #define SUSPICION_EXP_BASE 2
 #define TURN_DEPRECATE .9
-double SUSPICION_SCORE = 0;
+//double SUSPICION_SCORE = 0;
 
 
 bool alert(struct keyBundleStore* store, double*  lastEntry);
