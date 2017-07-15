@@ -30,7 +30,7 @@ let prevKey = null
 function sendPolling() {
     // Send data to pipeline.
     console.log(polling)
-    console.log('AVERAGE: ' + (total / entries))
+    // console.log('AVERAGE: ' + (total / entries))
     // Clear polling once data is sent to pipeline.
     polling = []
     prevKey = null
