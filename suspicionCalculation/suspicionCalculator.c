@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "suspicionCalculator.h"
-
+double SUSPICION_SCORE = 0;
 
 bool alert(struct keyBundleStore* store, double*  lastEntry){
 	int char1 = lastEntry[0];

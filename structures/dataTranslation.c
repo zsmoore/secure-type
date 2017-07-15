@@ -5,11 +5,13 @@
  */
 
 #include "dataTranslation.h"
+#include "../suspicionCalculation/suspicionCalculator.h"
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+
 /////////////////////////////
 // Key Bundle Struct
 struct keyBundle *
@@ -371,4 +373,39 @@ void makeFile (struct keyBundleStore * kbs) {
 		fprintf(fp, "\n");
 	}
 	fclose(fp);
+}
+
+void
+setUp(char *data) {
+
+    struct keyBundleStore *kbs = kbs_create();
+    double *info = readData(data);
+    kbs_insert_times(kbs, info[0], info[1], info[2], info[3], info[4]);
+    makeFile(kbs);
+}
+
+
+void
+setUp2(char *data) {
+
+    struct keyBundleStore *kbs = buildFromFile("file.txt");
+    double *info = readData(data);
+    kbs_insert_times(kbs, info[0], info[1], info[2], info[3], info[4]);
+    makeFile(kbs);
+}
+
+
+
+bool
+begin(char *data) {
+    
+    struct keyBundleStore *kbs = buildFromFile("file.txt");
+    double *info = readData(data);
+    if (alert(kbs, info)) {
+        kbs_insert_times(kbs, info[0], info[1], info[2], info[3], info[4]);
+        makeFile(kbs);
+        return true;
+    } else {
+        return false;
+    }
 }
