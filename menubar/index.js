@@ -1,9 +1,11 @@
-const key_util = require('./util/key')
 const gkm = require('gkm')
 const menubar = require('menubar')
 const musec = require('microseconds')
 const path = require('path')
 const proc = require('child_process')
+
+const keyUtil = require('./util/key')
+const libDataTranslation = require('./lib/dataTranslation')
 
 // Initialize menubar app.
 const app = menubar()
@@ -29,8 +31,9 @@ let prevKey = null
 
 function sendPolling() {
     // Send data to pipeline.
-    console.log(polling)
+    // console.log(polling)
     // console.log('AVERAGE: ' + (total / entries))
+
     // Clear polling once data is sent to pipeline.
     polling = []
     prevKey = null
@@ -40,14 +43,17 @@ function sendPolling() {
 }
 
 // Send polling every 1 second.
-setInterval(sendPolling, 1000 * 1)
+// setInterval(sendPolling, 1000 * 1)
 
 gkm.events.on('key.pressed', function(data) {
-    data = key_util.getKeyCode(data)
+    data = keyUtil.getKeyCode(data)
     if (prevKey == null) return
     if (data != null) {
         const timelapse = (musec.since(lastMicrosec) / 1000).toString().split('.', 1)[0]
-        polling.push(prevKey + ',' + data + ',' + timelapse)
+        // polling.push(prevKey + ',' + data + ',' + timelapse + ',0,0')
+
+        // console.log(libDataTranslation.readData(prevKey + ',' + data + ',' + timelapse + ',0,0'))
+        console.log(prevKey + ',' + data + ',' + timelapse + ',0,0')
         // total = total + parseInt(timelapse)
         // entries = entries + 1
     }
@@ -58,7 +64,7 @@ gkm.events.on('key.pressed', function(data) {
 
 gkm.events.on('key.released', function(data) {
     // Convert label to key code
-    data = key_util.getKeyCode(data)
+    data = keyUtil.getKeyCode(data)
     
     // If the key is a tracked key, store it until the next interaction is added.
     if (data != null) {

@@ -5,15 +5,18 @@
   "license": "MIT",
   "scripts": {
     "start": "supervisor -k --no-restart-on error -e node,js,html -w . -x electron .",
-    "start-once": "electron ."
+    "start-once": "electron .",
+    "rebuild": "electron-rebuild"
   },
   "dependencies": {
+    "ffi": "^2.2.0",
     "gkm": "^0.1.0",
     "menubar": "^5.2.3",
     "microseconds": "^0.1.0"
   },
   "devDependencies": {
     "electron-prebuilt": "^1.4.13",
+    "electron-rebuild": "^1.5.11",
     "supervisor": "^0.12.0"
   }
 }
