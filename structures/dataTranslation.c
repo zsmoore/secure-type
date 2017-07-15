@@ -10,7 +10,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-
 /////////////////////////////
 // Key Bundle Struct
 struct keyBundle *
@@ -228,4 +227,98 @@ readData(char *data) {
     }
     
     return ret;
+}
+
+struct keyBundleStore *
+buildFromFile(char *filename) {
+
+    FILE *file = fopen(filename, "r");
+    char *line;
+    char *semiColonSplit;
+    char *member;
+    char *arr;
+    size_t len = 0;
+    ssize_t read;
+
+    struct keyBundleStore *kbs = kbs_create();
+    struct keyBundle *kb;
+    int i = 0;
+    int j = 0;
+    int n = 0;
+    int k = 0;
+    if (file != NULL) {
+        while((read = getline(&line, &len, file)) != -1) {
+            //printf("THIS IS J:\t%d\n", j);
+            semiColonSplit = strdup(line);
+            semiColonSplit = strtok(semiColonSplit, ";");
+            i = 0;
+            
+            while (semiColonSplit != NULL) {
+                //printf("THIS IS CURRENT:\t%s\n", semiColonSplit);
+                //printf("THIS IS I:\t%d\n", i);
+                member = strdup(semiColonSplit);                
+                if (strcmp(member, "NULL") == 0) {
+                    kbs->kbs_data[i][j] = NULL;
+                    i++;
+                    continue;
+                }
+                
+                member = strtok(member, ",");
+
+                kb = malloc(sizeof(*kb));
+                n = 0;
+                while (member != NULL) {
+                    if (n == 0) {
+                        kb->k_firstPressed = (char) atoi(member);
+                    } else if (n == 1) {
+                        kb->k_secondPressed = (char) atoi(member);
+                    } else if(n == 2 || n == 3 || n == 4) {
+                        arr = strdup(member);
+                        arr = strtok(arr, "*");
+                        double dataTimes[NUM_REMEMBERED];
+                        k = 0;
+                        while (arr != NULL) {
+                            dataTimes[k] = atof(arr);
+                            arr = strtok(NULL, "*");
+                            k++;
+                        }
+                        if (n == 2) {
+                            copyArr(kb, dataTimes, TRAVEL_TIMES_INDEX);
+                        } else if (n == 3) {
+                            copyArr(kb, dataTimes, FIRST_DELAY_INDEX);
+                        } else if (n == 4) {
+                            copyArr(kb, dataTimes, SECOND_DELAY_INDEX);
+                        }
+                    }
+                    member = strtok(NULL, ",");
+                    n++;
+                }
+                //printf("THIS IS KB:\t%f\n", kb->k_dataTimes[0][3]);
+                kbs->kbs_data[i][j] = kb;
+                semiColonSplit = strtok(NULL, ";");
+                //printf("this is semi %s\n", semiColonSplit);
+                i++;
+            }
+            j++;
+        }
+
+    } else {
+        return NULL;
+    }
+
+    fclose(file);
+    if (line != NULL) {
+        free(line);
+    }
+    return kbs;
+}
+
+void
+copyArr(struct keyBundle *kb, double *toCop, int arrType) {
+    assert(kb != NULL);
+
+    int i;
+    for(i = 0; i < NUM_REMEMBERED; i++) {
+        kb->k_dataTimes[arrType][i] = toCop[i];
+    }
 }
