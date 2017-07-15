@@ -8,8 +8,9 @@
     "start-once": "electron ."
   },
   "dependencies": {
+    "gkm": "^0.1.0",
     "menubar": "^5.2.3",
-    "sudo": "^1.0.3"
+    "microseconds": "^0.1.0"
   },
   "devDependencies": {
     "electron-prebuilt": "^1.4.13",
