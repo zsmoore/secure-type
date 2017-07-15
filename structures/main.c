@@ -13,8 +13,8 @@ main(void) {
     //kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
 	//printf( "%s\n", structToString(test));
 
-    kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
-	makeFile(testkbs);
+    //kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
+	//makeFile(testkbs);
 	
     //printf("THIS IS IS:\t%d\n", kbs_get_last_time(testkbs, 'a', 'b', 0));
     
@@ -25,7 +25,7 @@ main(void) {
     //}
     struct keyBundleStore *kbs = buildFromFile("testData.csv");
 
-    printf("%f\n", kbs->kbs_data[(int)'a'][(int)'a']->k_dataTimes[0][0]);
+    printf("%f\n", kbs->kbs_data[0][0]->k_dataTimes[0][0]);
 
     return 1;
 }

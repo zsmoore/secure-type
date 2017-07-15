@@ -248,7 +248,7 @@ buildFromFile(char *filename) {
     int k = 0;
     if (file != NULL) {
         while((read = getline(&line, &len, file)) != -1) {
-            //printf("THIS IS J:\t%d\n", j);
+            printf("THIS IS J:\t%d\n", j);
             semiColonSplit = strdup(line);
             semiColonSplit = strtok(semiColonSplit, ";");
             i = 0;
@@ -310,6 +310,7 @@ buildFromFile(char *filename) {
     if (line != NULL) {
         free(line);
     }
+    printf("This returned\n");
     return kbs;
 }
 
@@ -321,7 +322,7 @@ copyArr(struct keyBundle *kb, double *toCop, int arrType) {
     for(i = 0; i < NUM_REMEMBERED; i++) {
         kb->k_dataTimes[arrType][i] = toCop[i];
     }
-
+}
 char * structToString(struct keyBundle *kb) {
 
 	if (kb == NULL) {
