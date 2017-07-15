@@ -13,6 +13,8 @@
 
 #define NUM_REMEMBERED 30
 #define MASS_STORE_SIZE 200
+
+#include <stdbool.h>
 ////////////////////////
 //  Struct for holding data
 struct keyBundle {
@@ -49,6 +51,9 @@ double kbs_get_last_time(struct keyBundleStore *, char first, char second, int a
 ///  Read in data
 double *readData(char *);
 struct keyBundleStore *buildFromFile(char *filename);
+void setUp(char *);
+void setUp2(char *);
+bool begin(char *);
 
 ////////////////////////////
 //  General Helpers
