@@ -12,7 +12,14 @@ main(void) {
 
     kbs_insert_times(testkbs, 'a', 'b', 1, 2, 3);
 
-    printf("THIS IS IS:\t%d\n", kbs_get_last_time(testkbs, 'a', 'b', 0));
+    //printf("THIS IS IS:\t%d\n", kbs_get_last_time(testkbs, 'a', 'b', 0));
+    
+    double *testReturn = readData("1,2,3,4,5");
+    int i = 0;
+    for ( i = 0; i < 5; i++) {
+        printf("THis is the num:\t%f\n", testReturn[i]);;
+    }
+
 
     return 1;
 }

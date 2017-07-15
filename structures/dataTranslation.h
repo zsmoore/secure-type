@@ -29,6 +29,7 @@ void kb_destroy(struct keyBundle *);
 //  Mass Store
 struct keyBundleStore {
     struct keyBundle *kbs_data[MASS_STORE_SIZE][MASS_STORE_SIZE];
+    struct keyBundle *kbs_lastInserted;
 };
 
 struct keyBundleStore *kbs_create(void);
@@ -46,7 +47,7 @@ int kbs_get_last_time(struct keyBundleStore *, char first, char second, int arrT
 
 ///////////////////////
 ///  Read in data
-
+double *readData(char *);
 
 
 ////////////////////////////
