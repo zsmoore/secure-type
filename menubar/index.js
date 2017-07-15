@@ -4,6 +4,7 @@ const musec = require('microseconds')
 const path = require('path')
 const proc = require('child_process')
 
+
 // Import custom libraries
 const keyUtil = require('./util/key')
 const userData = require('./models/user_data')
@@ -30,7 +31,7 @@ let lastMicrosec = 0
 
 let lastEntry = null  // Array of data from last entry into the database.
 
-const MIN_STORE_ENTRIES = 10
+const MIN_STORE_ENTRIES = 15
 
 let char1 = null
 let char2 = null
@@ -74,7 +75,6 @@ const MAX_TIME_IN_MS = 2000
 
 gkm.events.on('key.released', function (data) {
     data = keyUtil.getKeyCode(data)  // Format key text to key code.
-
     if (state == 1) {
         const timelapse = (musec.since(lastMicrosec) / 1000).toString().split('.', 1)[0]
         delay1 = timelapse
@@ -84,6 +84,7 @@ gkm.events.on('key.released', function (data) {
 
     } else {
         if (state == 3) {
+            if (!data) return
             const timelapse = (musec.since(lastMicrosec) / 1000).toString().split('.', 1)[0]
             delay2 = timelapse
             
@@ -96,20 +97,20 @@ gkm.events.on('key.released', function (data) {
                 delay1 = parseInt(delay1)
                 delay2 = parseInt(delay2)
 
-                if (travel < MIN_TIME_IN_MS || travel > MAX_TIME_IN_MS ||
-                    delay1 < MIN_TIME_IN_MS || delay1 > MAX_TIME_IN_MS ||
-                    delay2 < MIN_TIME_IN_MS || delay2 > MAX_TIME_IN_MS) {
-                    console.log('Travel time outside of allowed times.')
-                    // Reset data
-                    char1 = null
-                    char2 = null
-                    delay1 = 0
-                    delay2 = 0
-                    travel = 0
-                    lastMicrosec = 0
-                    state = 0
-                    return
-                }
+                // if (travel < MIN_TIME_IN_MS || travel > MAX_TIME_IN_MS ||
+                //     delay1 < MIN_TIME_IN_MS || delay1 > MAX_TIME_IN_MS ||
+                //     delay2 < MIN_TIME_IN_MS || delay2 > MAX_TIME_IN_MS) {
+                //     console.log('Travel time outside of allowed times.')
+                //     // Reset data
+                //     char1 = null
+                //     char2 = null
+                //     delay1 = 0
+                //     delay2 = 0
+                //     travel = 0
+                //     lastMicrosec = 0
+                //     state = 0
+                //     return
+                // }
 
                 userData.addEntry(char1, char2, travel, delay1, delay2)
                 userData.storeEntries++
@@ -119,7 +120,7 @@ gkm.events.on('key.released', function (data) {
 
             if (userData.storeEntries > MIN_STORE_ENTRIES && serviceSuspicion.isUserSuspicious()) {
                 serviceSuspicion.logOut()
-            }            
+            }
         }
 
         // Reset data

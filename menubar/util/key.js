@@ -29,8 +29,8 @@ const keyCodes = {
     '7': 55,
     '8': 56,
     '9': 57,
-    'Semicolon': 59,
-    'Equals': 61,
+    // 'Semicolon': 59,
+    // 'Equals': 61,
     'A': 65,
     'B': 66,
     'C': 67,
@@ -58,21 +58,21 @@ const keyCodes = {
     'Y': 89,
     'Z': 90,
     'Open Bracket': 91,
-    'Back Slash': 92,
+    // 'Back Slash': 92,
     'Close Bracket': 93,
     'Back Quote': 96,
-    'F1': 97,
-    'F2': 98,
-    'F3': 99,
-    'F4': 100,
-    'F5': 101,
-    'F6': 102,
-    'F7': 103,
-    'F8': 104,
-    'F9': 105,
-    'F10': 106,
-    'F11': 107,
-    'F12': 108,
+    // 'F1': 97,
+    // 'F2': 98,
+    // 'F3': 99,
+    // 'F4': 100,
+    // 'F5': 101,
+    // 'F6': 102,
+    // 'F7': 103,
+    // 'F8': 104,
+    // 'F9': 105,
+    // 'F10': 106,
+    // 'F11': 107,
+    // 'F12': 108,
     'Delete': 127,
 }
 
@@ -81,6 +81,6 @@ function getKeyCode(data) {
 }
 
 module.exports = {
-    // getKeyCode: getKeyCode,
-    getKeyCode: function(data) {return data} 
+    getKeyCode: getKeyCode,
+    // getKeyCode: function(data) {return data} 
 }
