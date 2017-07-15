@@ -248,14 +248,12 @@ buildFromFile(char *filename) {
     int k = 0;
     if (file != NULL) {
         while((read = getline(&line, &len, file)) != -1) {
-            printf("THIS IS J:\t%d\n", j);
             semiColonSplit = strdup(line);
-            semiColonSplit = strtok(semiColonSplit, ";");
-            i = 0;
-            
+            char *end_str;
+            semiColonSplit = strtok_r(semiColonSplit, ";", &end_str);
+            i = 0; 
             while (semiColonSplit != NULL) {
-                //printf("THIS IS CURRENT:\t%s\n", semiColonSplit);
-                //printf("THIS IS I:\t%d\n", i);
+                char *end_str2;
                 member = strdup(semiColonSplit);                
                 if (strcmp(member, "NULL") == 0) {
                     kbs->kbs_data[i][j] = NULL;
@@ -263,7 +261,7 @@ buildFromFile(char *filename) {
                     continue;
                 }
                 
-                member = strtok(member, ",");
+                member = strtok_r(member, ",", &end_str2);
 
                 kb = malloc(sizeof(*kb));
                 n = 0;
@@ -290,13 +288,11 @@ buildFromFile(char *filename) {
                             copyArr(kb, dataTimes, SECOND_DELAY_INDEX);
                         }
                     }
-                    member = strtok(NULL, ",");
+                    member = strtok_r(NULL, ",", &end_str2);
                     n++;
                 }
-                //printf("THIS IS KB:\t%f\n", kb->k_dataTimes[0][3]);
                 kbs->kbs_data[i][j] = kb;
-                semiColonSplit = strtok(NULL, ";");
-                //printf("this is semi %s\n", semiColonSplit);
+                semiColonSplit = strtok_r(NULL, ";", &end_str);
                 i++;
             }
             j++;
@@ -310,7 +306,6 @@ buildFromFile(char *filename) {
     if (line != NULL) {
         free(line);
     }
-    printf("This returned\n");
     return kbs;
 }
 
