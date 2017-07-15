@@ -1,5 +1,8 @@
-const remote = require('electron').remote
+const EventEmitter = require('events')
+const { ipcRenderer, remote } = require('electron')
 const proc = remote.app.proc
+const console = remote.app.console
+
 
 function logOut(event) {
     if (process.platform !== 'darwin') {
