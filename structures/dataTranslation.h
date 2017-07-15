@@ -18,8 +18,8 @@
 struct keyBundle {
     char k_firstPressed;
     char k_secondPressed;
-    int k_dataTimes[NUM_TIME_ARRAYS][NUM_REMEMBERED];
-    int k_dataTimesOldest[NUM_TIME_ARRAYS];
+    double k_dataTimes[NUM_TIME_ARRAYS][NUM_REMEMBERED];
+    double k_dataTimesOldest[NUM_TIME_ARRAYS];
 };
 
 struct keyBundle *kb_create(char first, char second);
@@ -37,12 +37,12 @@ void kbs_destroy(struct keyBundleStore *);
 
 //////////////////////////
 // Key Bundle Helpers
-void kb_insert_time(struct keyBundle *, int timeToInsert, int arrType);
+void kb_insert_time(struct keyBundle *, double timeToInsert, int arrType);
 
 ////////////////////////////
 //  Mass Store Helpers
-void kbs_insert_times(struct keyBundleStore *, char first, char second, int travelTime, int firstDelay, int secondDelay);
-int kbs_get_last_time(struct keyBundleStore *, char first, char second, int arrType);
+void kbs_insert_times(struct keyBundleStore *, char first, char second, double travelTime, double firstDelay, double secondDelay);
+double kbs_get_last_time(struct keyBundleStore *, char first, char second, int arrType);
 
 
 ///////////////////////
@@ -52,6 +52,6 @@ double *readData(char *);
 
 ////////////////////////////
 //  General Helpers
-void initArr(int *);
-int findOpenIndex(int *);
+void initArr(double *);
+int findOpenIndex(double *);
 #endif
