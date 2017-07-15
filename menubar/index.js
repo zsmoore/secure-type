@@ -3,6 +3,8 @@ const menubar = require('menubar')
 const musec = require('microseconds')
 const path = require('path')
 const proc = require('child_process')
+const ref = require('ref')
+const ArrayType = require('ref-array')
 
 const keyUtil = require('./util/key')
 const libDataTranslation = require('./lib/dataTranslation')
@@ -13,6 +15,7 @@ const app = menubar()
 // Set initial render
 const dir = app.getOption('dir')
 app.setOption('index', 'file://' + dir + '/index.html')
+app.app.commandLine.appendSwitch('js-flags', '--max-old-space-size=4096');
 
 app.app.proc = proc
 app.app.console = console
@@ -45,15 +48,19 @@ function sendPolling() {
 // Send polling every 1 second.
 // setInterval(sendPolling, 1000 * 1)
 
-gkm.events.on('key.pressed', function(data) {
+gkm.events.on('key.pressed', function (data) {
     data = keyUtil.getKeyCode(data)
     if (prevKey == null) return
     if (data != null) {
         const timelapse = (musec.since(lastMicrosec) / 1000).toString().split('.', 1)[0]
         // polling.push(prevKey + ',' + data + ',' + timelapse + ',0,0')
 
-        // console.log(libDataTranslation.readData(prevKey + ',' + data + ',' + timelapse + ',0,0'))
-        console.log(prevKey + ',' + data + ',' + timelapse + ',0,0')
+        const DoubleArray = ArrayType(ref.types.double)
+        const buf = libDataTranslation.readData(prevKey + ',' + data + ',' + timelapse + ',0,0')
+        const array = DoubleArray.untilZeros(buf)
+        console.log(array)
+
+        // console.log(prevKey + ',' + data + ',' + timelapse + ',0,0')
         // total = total + parseInt(timelapse)
         // entries = entries + 1
     }
@@ -62,7 +69,7 @@ gkm.events.on('key.pressed', function(data) {
     lastMicrosec = 0
 })
 
-gkm.events.on('key.released', function(data) {
+gkm.events.on('key.released', function (data) {
     // Convert label to key code
     data = keyUtil.getKeyCode(data)
     
