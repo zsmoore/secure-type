@@ -1,4 +1,5 @@
 #include "dataTranslation.h"
+#include "../suspicionCalculation/suspicionCalculator.h"
 #include <stdio.h>
 
 int
@@ -23,9 +24,11 @@ main(void) {
     //for ( i = 0; i < 5; i++) {
     //    printf("THis is the num:\t%f\n", testReturn[i]);;
     //}
-    struct keyBundleStore *kbs = buildFromFile("testData.csv");
+    //struct keyBundleStore *kbs = buildFromFile("testData.csv");
 
-    printf("%f\n", kbs->kbs_data[(int) 'a'][(int) 'a']->k_dataTimes[0][0]);
+    //double toTest[5] = {1.00, 1.00, 2.00, 2.00, 2.00};
+
+    //printf("Are we sus?\t%d\n", alert(kbs, toTest));
 
     return 1;
 }
