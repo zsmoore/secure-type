@@ -6,7 +6,8 @@
   "scripts": {
     "start": "supervisor -k --no-restart-on error -e node,js,html -w . -x electron .",
     "start-once": "electron .",
-    "rebuild": "electron-rebuild"
+    "rebuild": "electron-rebuild",
+    "compile-c": "gcc -dynamiclib -undefined suppress -flat_namespace ../structures/dataTranslation.c ../suspicionCalculation/suspicionCalculator.c -o menubar/lib/dataTranslation.dylib"
   },
   "dependencies": {
     "ffi": "^2.2.0",

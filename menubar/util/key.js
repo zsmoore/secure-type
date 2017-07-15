@@ -81,5 +81,6 @@ function getKeyCode(data) {
 }
 
 module.exports = {
-    getKeyCode: getKeyCode,
+    // getKeyCode: getKeyCode,
+    getKeyCode: function(data) {return data} 
 }
