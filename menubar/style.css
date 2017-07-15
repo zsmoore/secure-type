@@ -1,0 +1,19 @@
+*,
+html {
+    margin: 0;
+}
+
+body {
+    background: #112481;
+    color: #fff;
+    font-family: "Source Sans Pro", "Helvetica", sans-serif;
+}
+
+.content {
+    text-align: center;
+    margin: 10px;
+}
+
+input {
+    padding: 10px;
+}
