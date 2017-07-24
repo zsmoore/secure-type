@@ -269,9 +269,9 @@ buildFromFile(char *filename) {
                 n = 0;
                 while (member != NULL) {
                     if (n == 0) {
-                        kb->k_firstPressed = (char) atoi(member);
+                        kb->k_firstPressed = (char) member[0];
                     } else if (n == 1) {
-                        kb->k_secondPressed = (char) atoi(member);
+                        kb->k_secondPressed = (char) member[0];
                     } else if(n == 2 || n == 3 || n == 4) {
                         arr = strdup(member);
                         arr = strtok(arr, "*");
@@ -320,10 +320,14 @@ copyArr(struct keyBundle *kb, double *toCop, int arrType) {
         kb->k_dataTimes[arrType][i] = toCop[i];
     }
 }
-char * structToString(struct keyBundle *kb) {
+
+char *
+structToString(struct keyBundle *kb) {
 
 	if (kb == NULL) {
-		return "NULL;";
+        char *ret = malloc(6);
+        strcat(ret, "NULL;");
+		return ret;
 	}
 	
 	char * data = (char *) malloc((sizeof(char) * NUM_REMEMBERED * NUM_TIME_ARRAYS) + (sizeof(double) * NUM_REMEMBERED * NUM_TIME_ARRAYS) + (sizeof(char) * 100));
@@ -375,37 +379,3 @@ void makeFile (struct keyBundleStore * kbs) {
 	fclose(fp);
 }
 
-void
-setUp(char *data) {
-
-    struct keyBundleStore *kbs = kbs_create();
-    double *info = readData(data);
-    kbs_insert_times(kbs, info[0], info[1], info[2], info[3], info[4]);
-    makeFile(kbs);
-}
-
-
-void
-setUp2(char *data) {
-
-    struct keyBundleStore *kbs = buildFromFile("file.txt");
-    double *info = readData(data);
-    kbs_insert_times(kbs, info[0], info[1], info[2], info[3], info[4]);
-    makeFile(kbs);
-}
-
-
-
-bool
-begin(char *data) {
-    
-    struct keyBundleStore *kbs = buildFromFile("file.txt");
-    double *info = readData(data);
-    if (alert(kbs, info)) {
-        kbs_insert_times(kbs, info[0], info[1], info[2], info[3], info[4]);
-        makeFile(kbs);
-        return true;
-    } else {
-        return false;
-    }
-}

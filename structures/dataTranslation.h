@@ -51,9 +51,6 @@ double kbs_get_last_time(struct keyBundleStore *, char first, char second, int a
 ///  Read in data
 double *readData(char *);
 struct keyBundleStore *buildFromFile(char *filename);
-void setUp(char *);
-void setUp2(char *);
-bool begin(char *);
 
 ////////////////////////////
 //  General Helpers
